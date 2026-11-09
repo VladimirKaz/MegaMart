@@ -1,9 +1,9 @@
 # MegaMart
 
-MegaMart — это адаптивная страница интернет-магазина (лендинг), разработанная с использованием современного стек-технологий для обеспечения высокой скорости загрузки и удобства пользования.MegaMart — это адаптивная страница интернет-магазина (лендинг), разработанная с использованием современного стек-технологий для обеспечения высокой скорости загрузки и удобства пользования.
+MegaMart — это адаптивная страница интернет-магазина (лендинг), разработанная с использованием современного стек-технологий для обеспечения высокой скорости загрузки и удобства пользования.
 
 ![Превью лендинга MegaMart](./public/og-image.jpg)
-*Адаптивный лендинг интернет-магазина на Astro + TypeScript*
+_Адаптивный лендинг интернет-магазина на Astro + TypeScript_
 
 ---
 
@@ -35,7 +35,7 @@ npm -v
 
 ```bash
 # 1. Клонировать репозиторий
-git clone https://github.com/username/my-project.git
+git clone https://github.com/VladimirKaz/MegaMart
 
 # 2. Перейти в папку
 cd template-astro
@@ -53,12 +53,12 @@ npm run dev
 
 ## 📜 Скрипты
 
-| Команда | Что делает |
-|---|---|
-| `npm run dev` | Запуск dev-сервера с hot-reload |
-| `npm run build` | Сборка сайта в `dist/` |
+| Команда           | Что делает                          |
+| ----------------- | ----------------------------------- |
+| `npm run dev`     | Запуск dev-сервера с hot-reload     |
+| `npm run build`   | Сборка сайта в `dist/`              |
 | `npm run preview` | Локальный просмотр собранного сайта |
-| `npm run astro` | Прямой доступ к CLI Astro |
+| `npm run astro`   | Прямой доступ к CLI Astro           |
 
 ---
 
@@ -131,7 +131,7 @@ MegaMart/
 
 Пример интерфейса пропсов в компоненте `.astro`:
 
-```typescript
+````typescript
 interface Props {
   title: string;
   items: Array<{ id: number; name: string }>;
@@ -162,7 +162,7 @@ const { title, items } = Astro.props;
 @import './fonts.css';       /* 3. Шрифты */
 @import './base.css';        /* 4. База */
 @import './utilities.css';   /* 5. Утилиты */
-```
+````
 
 ### Где менять цвета и размеры
 
@@ -188,10 +188,11 @@ const { title, items } = Astro.props;
 
 ## 📱 Адаптивность
 
-Верстка построена по принципу **Desktop First** . 
-*   Основной контейнер ограничен `--container-width: 1200px`.
-*   Сетки товаров перестраиваются с 5 колонок на десктопе до 1–2 колонок на мобильных устройствах.
-*   Шрифты и отступы масштабируются через CSS-переменные в `tokens.css`.
+Верстка построена по принципу **Desktop First** .
+
+- Основной контейнер ограничен `--container-width: 1200px`.
+- Сетки товаров перестраиваются с 5 колонок на десктопе до 1–2 колонок на мобильных устройствах.
+- Шрифты и отступы масштабируются через CSS-переменные в `tokens.css`.
 
 ---
 
@@ -228,13 +229,13 @@ const { title } = Astro.props;
 
 ### Что куда класть
 
-| Что | Куда |
-|---|---|
-| UI-кирпич (Button, Icon) | `src/components/ui/` |
-| Блок страницы (Hero, Features) | `src/components/sections` |
-| Глобальные части (Header, Footer) | `src/components/layout` |
-| Layout | `src/layouts/` |
-| Страница | `src/pages/` |
+| Что                               | Куда                      |
+| --------------------------------- | ------------------------- |
+| UI-кирпич (Button, Icon)          | `src/components/ui/`      |
+| Блок страницы (Hero, Features)    | `src/components/sections` |
+| Глобальные части (Header, Footer) | `src/components/layout`   |
+| Layout                            | `src/layouts/`            |
+| Страница                          | `src/pages/`              |
 
 ---
 
@@ -243,16 +244,16 @@ const { title } = Astro.props;
 Настроены алиасы для удобных импортов:
 
 | Алиас | Куда ведёт |
-|---|---|
-| `@/` | `src/` |
+| ----- | ---------- |
+| `@/`  | `src/`     |
 
 **Примеры:**
 
 ```js
-import Button from '@/components/ui/Button.astro';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import '@/styles/global.css';
-import { site } from '@/data/site';
+import Button from "@/components/ui/Button.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import "@/styles/global.css";
+import { site } from "@/data/site";
 ```
 
 **Настройка — в двух файлах:**
@@ -264,12 +265,12 @@ import { site } from '@/data/site';
 
 ## 🖼️ Работа с графикой
 
-| Что | Куда | Как использовать |
-|---|---|---|
-| Favicon, og-image, robots.txt | `public/` | Прямой URL: `/favicon.svg` |
-| Локальные шрифты | `public/fonts/` | `/fonts/Inter.woff2` |
-| Картинки контента | `src/assets/images/` | `import img from '@/assets/images/'` |
-| Иконки SVG | `src/assets/icons/` | `import icon from '@/assets/icons'` |
+| Что                           | Куда                 | Как использовать                     |
+| ----------------------------- | -------------------- | ------------------------------------ |
+| Favicon, og-image, robots.txt | `public/`            | Прямой URL: `/favicon.svg`           |
+| Локальные шрифты              | `public/fonts/`      | `/fonts/Inter.woff2`                 |
+| Картинки контента             | `src/assets/images/` | `import img from '@/assets/images/'` |
+| Иконки SVG                    | `src/assets/icons/`  | `import icon from '@/assets/icons'`  |
 
 **Правило:** если нужен **прямой URL** → `public/`. Если **оптимизация** → `src/assets/`.
 
@@ -282,15 +283,15 @@ import { site } from '@/data/site';
 ```ts
 // src/data/site.ts
 export const site = {
-  name: 'MyProject',
-  description: '...',
-  email: 'hello@example.com',
+  name: "MyProject",
+  description: "...",
+  email: "hello@example.com",
 };
 
 // src/data/navigation.ts
 export const navigation = [
-  { href: '/', label: 'Главная' },
-  { href: '/about', label: 'О нас' },
+  { href: "/", label: "Главная" },
+  { href: "/about", label: "О нас" },
 ];
 ```
 
@@ -303,8 +304,6 @@ import { site } from '@/data/site';
 <a href="/" class="header__logo">{site.name}</a>
 ```
 
-**Правило:** если данные повторяются **3+ раз** или их **легко менять** — выноси в `data/`.
-
 ---
 
 ## 📦 Контент (Astro Content Collections)
@@ -313,7 +312,7 @@ import { site } from '@/data/site';
 
 ### Структура контента
 
-```text
+````text
 src/
 ├── content/
 │   ├── config.ts          # Схема (Zod) для валидации данных
@@ -367,7 +366,7 @@ npm i -D имя-пакета
 # Очистка кэша (если что-то сломалось)
 rm -rf node_modules .astro dist
 npm install
-```
+````
 
 ---
 
