@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  image: ImageMetadata;
+  href?: string;
+  isActive?: boolean;
+}
+
+const { title, image, href = "#!" } = Astro.props;
+---
+
+<a href={href} class="category-card">
+  <div class="category-card__image-wrapper">
+    <Image
+      src={image}
+      alt={title}
+      width={132}
+      height={132}
+      class="category-card__image"
+      loading="lazy"
+    />
+  </div>
+  <span class="category-card__title">{title}</span>
+</a>
+
+<style>
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .category-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .category-card:hover .category-card__image-wrapper {
+    border-color: var(--color-primary);
+  }
+
+  /* Активное состояние (как у первой иконки в макете) */
+  .category-card.is-active .category-card__image-wrapper {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .category-card__image-wrapper {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    background: var(--color-bg-1);
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .category-card__image {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+
+  .category-card__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .category-card__image-wrapper {
+      width: 100px;
+      height: 100px;
+    }
+    .category-card__title {
+      font-size: 14px;
+    }
+  }
+</style>

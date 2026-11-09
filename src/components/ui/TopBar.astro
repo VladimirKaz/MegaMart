@@ -1,0 +1,102 @@
+---
+const items = [
+  { icon: 'location', text: 'Deliver to 423651' },
+  { icon: 'truck',    text: 'Track your order' },
+  { icon: 'discount', text: 'All Offers' },
+];
+---
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <p class="topbar__welcome">Welcome to worldwide Megamart!</p>
+
+    <ul class="topbar__list">
+      {items.map(({ icon, text }) => (
+        <li class="topbar__item">
+          {icon === 'location' && (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          )}
+          {icon === 'truck' && (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          )}
+          {icon === 'discount' && (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10L14 3H4v10l7 7 10-10z"/>
+              <circle cx="7.5" cy="6.5" r="1"/>
+              <path d="M14 8l-6 6"/>
+            </svg>
+          )}
+          <span>{text}</span>
+        </li>
+        <li class="topbar__divider" aria-hidden="true" />
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--color-bg-1);
+    border-bottom: 1px solid var(--color-border);
+    height: 42px;
+  }
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .topbar__welcome {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+  .topbar__list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .topbar__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .topbar__item:hover {
+    color: var(--color-primary);
+  }
+  .topbar__item svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+  .topbar__divider {
+    width: 1px;
+    height: 18px;
+    background: var(--color-line);
+  }
+  .topbar__divider:last-child {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .topbar__welcome,
+    .topbar__divider {
+      display: none;
+    }
+    .topbar__inner {
+      justify-content: center;
+    }
+    .topbar__list {
+      gap: 12px;
+    }
+  }
+</style>

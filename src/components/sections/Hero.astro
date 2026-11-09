@@ -1,0 +1,264 @@
+---
+import { Image } from "astro:assets";
+import SliderButton from "../../components/ui/SliderButton.astro";
+import heroImage from "../../assets/images/sections/hero/hero-watch.png";
+import heroDecoration from "../../assets/images/sections/hero/hero-decoration.png";
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__banner">
+      <!-- ЛЕВАЯ ЧАСТЬ: Текст -->
+      <div class="hero__content">
+        <div class="hero__content-inner">
+          <p class="hero__kicker">Best Deal Online on smart watches</p>
+          <h1 class="hero__title">SMART WEARABLE.</h1>
+          <p class="hero__subtitle">UP to 80% OFF</p>
+        </div>
+
+        <div class="hero__dots" aria-label="Слайды баннера">
+          <span class="hero__dot is-active"></span>
+          <span class="hero__dot"></span>
+          <span class="hero__dot"></span>
+          <span class="hero__dot"></span>
+          <span class="hero__dot"></span>
+          <span class="hero__dot"></span>
+        </div>
+      </div>
+
+      <!-- ПРАВАЯ ЧАСТЬ: Просто картинка с декором -->
+      <div class="hero__media">
+        <Image
+          src={heroDecoration}
+          alt="Смарт-часы"
+          class="hero__image"
+          loading="eager"
+        />
+
+        <div class="hero__watch-wrapper">
+          <Image src={heroImage} alt={"Hero watch"} loading={"eager"} />
+        </div>
+      </div>
+
+      <!-- !-- СТРЕЛКИ (с использованием компонента) -->
+      <div class="hero__controls">
+        <SliderButton direction="prev" class="hero__arrow hero__arrow--prev" />
+        <SliderButton direction="next" class="hero__arrow hero__arrow--next" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 40px 0 24px;
+  }
+
+  /* ОБЩИЙ БАННЕР */
+  .hero__banner {
+    position: relative;
+    height: 316px;
+    background: #212842;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+
+    /* Грид на 2 колонки */
+    display: grid;
+    grid-template-columns: 60% 40%;
+  }
+
+  /* --- ЛЕВАЯ ЧАСТЬ: Текст --- */
+  .hero__content {
+    position: relative;
+    z-index: 3;
+    padding: 40px 0px 40px 90px;
+
+    color: var(
+      --color-white
+    ); /* Увеличиваем отступ слева, чтобы текст не залезал под стрелку */
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 73px;
+  }
+
+  .hero__content-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .hero__kicker {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .hero__title {
+    font-size: 63px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .hero__subtitle {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .hero__dots {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-white);
+    opacity: 0.5;
+  }
+  .hero__dot.is-active {
+    width: 24px;
+    border-radius: 4px;
+    opacity: 1;
+  }
+
+  /* --- ПРАВАЯ ЧАСТЬ: Картинки --- */
+  .hero__media {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+  }
+
+  /* 1. Слой декорации (круги) */
+  .hero__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  /* 2. Слой с часами */
+  .hero__watch-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 268px;
+    height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero__watch-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3));
+  }
+
+  /* --- СТРЕЛКИ ПО БОКАМ --- */
+  .hero__controls {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .hero__controls :global(.slider-btn) {
+    pointer-events: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Левая стрелка — у левого края баннера */
+  .hero__controls :global(.hero__arrow--prev) {
+    left: -39px;
+  }
+
+  /* Правая стрелка — у правого края баннера */
+  .hero__controls :global(.hero__arrow--next) {
+    right: -39px;
+  }
+
+  /* --- АДАПТИВ --- */
+  @media (max-width: 1024px) {
+    .hero__content {
+      padding: 32px 40px 32px 80px;
+    }
+    .hero__title {
+      font-size: 44px;
+    }
+    .hero__kicker,
+    .hero__subtitle {
+      font-size: 22px;
+    }
+
+    .hero__watch-wrapper {
+      width: 200px;
+      height: 200px;
+    }
+
+    .hero__controls :global(.slider-btn) {
+      width: 56px;
+      height: 56px;
+      border-width: 5px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 20px 0 12px;
+    }
+
+    .hero__banner {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+
+    .hero__content {
+      width: 100%;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .hero__title {
+      font-size: 36px;
+    }
+    .hero__kicker,
+    .hero__subtitle {
+      font-size: 18px;
+    }
+    .hero__dots {
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .hero__media {
+      width: 100%;
+      height: 250px;
+      flex-shrink: 0;
+    }
+
+    .hero__controls :global(.slider-btn) {
+      width: 44px;
+      height: 44px;
+      border-width: 4px;
+      top: auto;
+      bottom: 40px;
+      transform: none;
+    }
+    .hero__controls :global(.hero__arrow--prev) {
+      left: 20px;
+    }
+    .hero__controls :global(.hero__arrow--next) {
+      right: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+interface Props {
+  direction: "prev" | "next";
+  class?: string;
+}
+
+const { direction, class: className } = Astro.props;
+---
+
+<button
+  class:list={["slider-btn", `slider-btn--${direction}`, className]}
+  aria-label={direction === "prev" ? "Назад" : "Вперед"}
+>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    {
+      direction === "prev" ? (
+        <polyline points="15 18 9 12 15 6" />
+      ) : (
+        <polyline points="9 18 15 12 9 6" />
+      )
+    }
+  </svg>
+</button>
+
+<style>
+  .slider-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: var(--color-bg-3);
+    border: 8px solid var(--color-white);
+    color: var(--color-primary);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .slider-btn:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 1024px) {
+    .slider-btn {
+      width: 56px;
+      height: 56px;
+      border-width: 5px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .slider-btn {
+      width: 44px;
+      height: 44px;
+      border-width: 4px;
+    }
+  }
+</style>

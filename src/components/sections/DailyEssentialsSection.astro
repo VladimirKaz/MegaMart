@@ -1,0 +1,94 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import EssentialsCard from "../ui/EssentialsCard.astro";
+
+// Импорты картинок фруктов и продуктов
+import imgEssentials from "../../assets/images/essentials/daily-essentials.png";
+import imgVegetables from "../../assets/images/essentials/vegitables.png";
+import imgFruits from "../../assets/images/essentials/fruits.png";
+import imgStrawberry from "../../assets/images/essentials/strowberry.png";
+import imgMango from "../../assets/images/essentials/mango.png";
+import imgCherry from "../../assets/images/essentials/cherry.png";
+
+const essentials = [
+  {
+    label: "Daily Essentials",
+    discount: "UP to 50% OFF",
+    image: imgEssentials,
+    href: "/catalog/essentials",
+  },
+  {
+    label: "Vegetables",
+    discount: "UP to 50% OFF",
+    image: imgVegetables,
+    href: "/catalog/vegetables",
+  },
+  {
+    label: "Fruits",
+    discount: "UP to 50% OFF",
+    image: imgFruits,
+    href: "/catalog/fruits",
+  },
+  {
+    label: "Strawberry",
+    discount: "UP to 50% OFF",
+    image: imgStrawberry,
+    href: "/catalog/strawberry",
+  },
+  {
+    label: "Mango",
+    discount: "UP to 50% OFF",
+    image: imgMango,
+    href: "/catalog/mango",
+  },
+  {
+    label: "Cherry",
+    discount: "UP to 50% OFF",
+    image: imgCherry,
+    href: "/catalog/cherry",
+  },
+];
+---
+
+<section class="essentials">
+  <div class="container">
+    <SectionHeader
+      title="Daily "
+      highlight="Essentials"
+      linkText="View All"
+      linkHref="/catalog/essentials"
+    />
+
+    <div class="essentials__grid">
+      {essentials.map((item) => <EssentialsCard {...item} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .essentials {
+    padding: 24px 0 60px;
+  }
+
+  .essentials__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 колонок */
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  /* --- АДАПТИВ --- */
+  @media (max-width: 1024px) {
+    .essentials__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .essentials__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+</style>

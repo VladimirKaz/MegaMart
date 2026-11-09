@@ -1,0 +1,289 @@
+---
+import FooterLogo from "../ui/FooterLogo.astro";
+import { Image } from "astro:assets";
+import AppStoreLogo from "../../assets/images/footer/app-store.png";
+import GooglePlay from "../../assets/images/footer/google-play.png";
+import WhatsUpLogo from "../../assets/icons/whats-app.svg";
+import CallLogo from "../../assets/icons/call.svg";
+import FooterDecor from "../ui/FooterDecor.astro";
+
+const popularCategories = [
+  { label: "Staples", href: "/catalog/staples" },
+  { label: "Beverages", href: "/catalog/beverages" },
+  { label: "Personal Care", href: "/catalog/personal-care" },
+  { label: "Home Care", href: "/catalog/home-care" },
+  { label: "Baby Care", href: "/catalog/baby-care" },
+  { label: "Vegetables & Fruits", href: "/catalog/vegetables" },
+  { label: "Snacks & Foods", href: "/catalog/snacks" },
+  { label: "Dairy & Bakery", href: "/catalog/dairy" },
+];
+
+const customerServices = [
+  { label: "About Us", href: "/about" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "E-waste Policy", href: "/e-waste" },
+  { label: "Cancellation & Return Policy", href: "/returns" },
+];
+---
+
+<footer class="footer">
+  <FooterDecor />
+  <div class="footer__container">
+    <div class="footer__top">
+      <!-- Колонка 1: Лого, Контакты, Приложение -->
+      <div class="footer__col footer__col--brand">
+        <a href="/" class="footer__logo" aria-label="MegaMart — главная">
+          <!-- Логотип (текстовый SVG, чтобы не зависеть от картинки) -->
+          <FooterLogo />
+        </a>
+
+        <div class="footer__contact">
+          <p class="footer__heading">Contact Us</p>
+
+          <a href="https://wa.me/12029182132" class="footer__contact-link">
+            <Image src={WhatsUpLogo} alt={"Whats app"} loading={"lazy"} />
+            <div class="footer__contact-info">
+              <span class="footer__contact-label">Whats App</span>
+              <span class="footer__contact-value">+1 202-918-2132</span>
+            </div>
+          </a>
+
+          <a href="tel:+12029182132" class="footer__contact-link">
+            <Image src={CallLogo} alt={"Call us"} loading={"lazy"} />
+            <div class="footer__contact-info">
+              <span class="footer__contact-label">Call Us</span>
+              <span class="footer__contact-value">+1 202-918-2132</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="footer__download">
+          <p class="footer__heading">Download App</p>
+          <div class="footer__app-buttons">
+            <!-- Заглушки для сторов -->
+            <a href="#!" class="footer__app-btn">
+              <Image src={AppStoreLogo} alt={"App Store"} loading={"lazy"} />
+            </a>
+            <a href="#!" class="footer__app-btn">
+              <Image src={GooglePlay} alt={"Google Play"} loading={"lazy"} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Колонка 2: Категории -->
+      <div class="footer__col">
+        <p class="footer__heading">Most Popular Categories</p>
+        <ul class="footer__list">
+          {
+            popularCategories.map((item) => (
+              <li>
+                <a href={item.href} class="footer__link">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Колонка 3: Сервисы -->
+      <div class="footer__col">
+        <p class="footer__heading">Customer Services</p>
+        <ul class="footer__list">
+          {
+            customerServices.map((item) => (
+              <li>
+                <a href={item.href} class="footer__link">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Нижняя полоса с копирайтом -->
+  <hr class="footer__decor-line" aria-label="" />
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p class="footer__copyright">
+        © 2022 All rights reserved. Reliance Retail Ltd.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    z-index: 1;
+
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 80px 0 0 120px;
+    margin-top: 60px; /* Отступ от последней секции */
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: 378px 219px 224px;
+    gap: 80px;
+    padding-bottom: 40px;
+  }
+
+  .footer__heading {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-white);
+  }
+
+  /* --- Логотип --- */
+  .footer__logo {
+    display: inline-block;
+    color: var(--color-white);
+    margin-bottom: 40px;
+  }
+
+  /* --- Контакты --- */
+  .footer__contact {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer__contact-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--color-white);
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .footer__contact-link:hover {
+    opacity: 1;
+  }
+
+  .footer__contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer__contact-label {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .footer__contact-value {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* --- Ссылки (Списки) --- */
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer__link {
+    font-size: 16px;
+    color: var(--color-white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    position: relative;
+    padding-left: 16px;
+  }
+
+  /* Точечки перед ссылками как в макете */
+  .footer__link::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.6;
+  }
+
+  .footer__link:hover {
+    opacity: 1;
+  }
+
+  /* --- Приложение --- */
+  .footer__app-buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer__app-btn {
+    transition: opacity 0.2s;
+  }
+  .footer__app-btn:hover {
+    opacity: 0.7;
+  }
+
+  /* --- Нижняя часть --- */
+
+  .footer__decor-line {
+    border: 1px solid #05abf3;
+    width: 1200px;
+    height: 0;
+    margin: 0 auto;
+  }
+
+  .footer__bottom {
+    /* border-top: 1px solid rgba(255, 255, 255, 0.2); */
+    padding: 30px 0;
+    text-align: center;
+  }
+
+  .footer__copyright {
+    font-size: 16px;
+    opacity: 0.8;
+  }
+
+  /* --- АДАПТИВ --- */
+  @media (max-width: 1024px) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__col--brand {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      padding-top: 40px;
+      margin-top: 40px;
+    }
+    .footer__top {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer__col--brand {
+      grid-column: span 1;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer__logo {
+      margin-bottom: 0;
+    }
+    .footer__contact {
+      margin-bottom: 0;
+    }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+import FooterDecor from "@/assets/images/footer/footer-decor.svg";
+import { Image } from "astro:assets";
+---
+
+<div class="footer__decor">
+  <Image src={FooterDecor} alt={"footer decor"} loading={"lazy"} />
+</div>
+
+<style>
+  .footer__decor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  label: string;
+  discount: string;
+  image: ImageMetadata;
+  href: string;
+  isActive?: boolean;
+}
+
+const { label, discount, image, href } = Astro.props;
+---
+
+<a
+  href={href}
+  class={"essentials-card"}
+>
+  <!-- БЛОК 1: Квадрат с серым фоном и картинкой -->
+  <div class="essentials-card__image-wrapper">
+    <Image
+      src={image}
+      alt={label}
+      width={300}
+      height={300}
+      quality="high"
+      class="essentials-card__img"
+    />
+  </div>
+
+  <!-- БЛОК 2: Текст под квадратом -->
+  <div class="essentials-card__content">
+    <p class="essentials-card__label">{label}</p>
+    <h3 class="essentials-card__discount">{discount}</h3>
+  </div>
+</a>
+
+<style>
+  /* Вся ссылка (прозрачная, просто стягивает блоки) */
+  .essentials-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  /* Блок с картинкой (квадрат) */
+  .essentials-card__image-wrapper {
+    width: 100%;
+    aspect-ratio: 187 / 187;
+    background: var(--color-bg-1);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  /* Состояние при наведении на карточку */
+  .essentials-card:hover .essentials-card__image-wrapper {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border 1px solid --color-primary;
+    border-color: var(--color-primary);
+  }
+
+  /* Активное состояние (синяя рамка вокруг КАРТИНКИ) */
+  .essentials-card--active .essentials-card__image-wrapper {
+    border-color: var(--color-primary);
+  }
+
+  /* Картинка */
+  .essentials-card__img {
+    max-width: 120px;
+    max-height: 120px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .essentials-card:hover .essentials-card__img {
+    transform: scale(1.05);
+  }
+
+  /* Блок с текстом */
+  .essentials-card__content {
+    text-align: center;
+    width: 100%;
+  }
+
+  .essentials-card__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin: 0 0 4px 0;
+  }
+
+  .essentials-card__discount {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .essentials-card {
+      gap: 12px;
+    }
+    .essentials-card__discount {
+      font-size: 14px;
+    }
+    .essentials-card__img {
+      max-width: 90px;
+      max-height: 90px;
+    }
+  }
+</style>

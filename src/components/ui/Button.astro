@@ -1,0 +1,94 @@
+---
+interface Props {
+  href?: string;
+  variant?: "primary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
+  type?: "button" | "submit";
+  disabled?: boolean;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  type = "button",
+  disabled = false,
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["btn", `btn--${variant}`, `btn--${size}`]}
+  href={href}
+  type={!href ? type : undefined}
+  disabled={!href ? disabled : undefined}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-family: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ===== Варианты ===== */
+  .btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn--primary:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+  }
+
+  .btn--outline {
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  .btn--outline:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-primary);
+  }
+  .btn--ghost:hover:not(:disabled) {
+    background: var(--color-bg-alt);
+  }
+
+  /* ===== Размеры ===== */
+  .btn--sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--fs-sm);
+  }
+
+  .btn--lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--fs-lg);
+  }
+</style>

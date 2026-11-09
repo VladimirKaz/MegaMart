@@ -1,0 +1,114 @@
+---
+const categories = [
+  { label: "Groceries", href: "/catalog/groceries", active: true },
+  { label: "Premium Fruits", href: "/catalog/fruits" },
+  { label: "Home & Kitchen", href: "/catalog/home" },
+  { label: "Fashion", href: "/catalog/fashion" },
+  { label: "Electronics", href: "/catalog/electronics" },
+  { label: "Beauty", href: "/catalog/beauty" },
+  { label: "Home Improvement", href: "/catalog/improvement" },
+  { label: "Sports, Toys & Luggage", href: "/catalog/sports" },
+];
+---
+
+<nav class="navbar" aria-label="Категории товаров">
+  <div class="container navbar__inner">
+    <ul class="navbar__list">
+      {
+        categories.map(({ label, href, active }) => (
+          <li class="navbar__item">
+            <a
+              href={href}
+              class:list={["navbar__link", { "is-active": active }]}
+            >
+              <span>{label}</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    height: 69px;
+  }
+  .navbar__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .navbar__list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .navbar__list::-webkit-scrollbar {
+    display: none;
+  }
+  .navbar__item {
+    flex-shrink: 0;
+  }
+  .navbar__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-3);
+    transition:
+      background 0.2s,
+      color 0.2s;
+    white-space: nowrap;
+  }
+  .navbar__link svg {
+    color: var(--color-primary);
+    transition: color 0.2s;
+  }
+  .navbar__link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .navbar__link:hover svg {
+    color: var(--color-white);
+  }
+  .navbar__link.is-active {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .navbar__link.is-active svg {
+    color: var(--color-white);
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      height: 56px;
+    }
+    .navbar__link {
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+  }
+</style>

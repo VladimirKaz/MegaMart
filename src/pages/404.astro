@@ -1,0 +1,30 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 — Страница не найдена">
+  <section class="container notfound">
+    <h1>404</h1>
+    <p>Страница не найдена</p>
+    <a href="/">Вернуться на главную</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+    padding: 5rem 1rem;
+  }
+
+  .notfound h1 {
+    font-size: 4rem;
+    color: var(--color-primary);
+  }
+
+  .notfound a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+</style>

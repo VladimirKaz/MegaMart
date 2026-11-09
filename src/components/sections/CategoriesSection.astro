@@ -1,0 +1,130 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import CategoryCard from "../ui/CategoryCard.astro";
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/images/categories/*.png",
+  { eager: true },
+);
+
+const getImage = (name: string) => {
+  const path = `../../assets/images/categories/${name}.png`;
+  return images[path]?.default;
+};
+
+const categories = [
+  {
+    title: "Mobile",
+    image: getImage("mobile"),
+    href: "/catalog/mobile",
+  },
+  {
+    title: "Cosmetics",
+    image: getImage("cosmetics"),
+    href: "/catalog/cosmetics",
+  },
+  {
+    title: "Electronics",
+    image: getImage("electronics"),
+    href: "/catalog/electronics",
+  },
+  {
+    title: "Furniture",
+    image: getImage("furniture"),
+    href: "/catalog/furniture",
+  },
+  {
+    title: "Watches",
+    image: getImage("watches"),
+    href: "/catalog/watches",
+  },
+  {
+    title: "Decor",
+    image: getImage("decor"),
+    href: "/catalog/decor",
+  },
+  {
+    title: "Accessories",
+    image: getImage("accessories"),
+    href: "/catalog/accessories",
+  },
+];
+
+// import catMobile from "../../assets/images/categories/mobile.png";
+// import catCosmetics from "../../assets/images/categories/cosmetics.png";
+// import catElectronics from "../../assets/images/categories/electronics.png";
+// import catFurniture from "../../assets/images/categories/furniture.png";
+// import catWatches from "../../assets/images/categories/watches.png";
+// import catDecor from "../../assets/images/categories/decor.png";
+// import catAccessories from "../../assets/images/categories/accessories.png";
+
+// const categories = [
+//   {
+//     title: "Mobile",
+//     image: catMobile,
+//     href: "/catalog/mobile",
+//     isActive: false,
+//   },
+//   { title: "Cosmetics", image: catCosmetics, href: "/catalog/cosmetics" },
+//   { title: "Electronics", image: catElectronics, href: "/catalog/electronics" },
+//   { title: "Furniture", image: catFurniture, href: "/catalog/furniture" },
+//   { title: "Watches", image: catWatches, href: "/catalog/watches" },
+//   { title: "Decor", image: catDecor, href: "/catalog/decor" },
+//   { title: "Accessories", image: catAccessories, href: "/catalog/accessories" },
+// ];
+---
+
+<section class="categories">
+  <div class="container">
+    <SectionHeader
+      title="Shop From "
+      highlight="Top Categories"
+      linkText="View All"
+      linkHref="/catalog"
+    />
+
+    <!-- Используем grid для ровного выравнивания -->
+    <div class="categories__grid">
+      {categories.map((cat) => <CategoryCard {...cat} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .categories {
+    padding: 0;
+    margin-top: 120px;
+  }
+
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px;
+    justify-items: center;
+    margin-top: 10px;
+  }
+
+  .category-card__image-wrapper {
+    background: var(--color-bg-1);
+  }
+
+  /* --- АДАПТИВ --- */
+  @media (max-width: 1200px) {
+    .categories__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .categories__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+  @media (max-width: 480px) {
+    .categories__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+interface Props {
+  total: number;
+  activeIndex?: number;
+  theme?: "dark" | "light";
+}
+
+const { total, activeIndex = 0, theme = "dark" } = Astro.props;
+---
+
+<div class:list={["slider-dots", `slider-dots--${theme}`]} aria-label="Слайды">
+  {
+    Array.from({ length: total }).map((_, i) => (
+      <span
+        class:list={["slider-dots__item", { "is-active": i === activeIndex }]}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .slider-dots {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .slider-dots__item {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition:
+      width 0.3s,
+      background-color 0.3s,
+      opacity 0.3s;
+  }
+
+  /* Активная точка (удлиненная) */
+  .slider-dots__item.is-active {
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* --- ТЕМНАЯ ТЕМА (для Hero на синем фоне) --- */
+  .slider-dots--dark .slider-dots__item {
+    background: var(--color-white);
+    opacity: 0.5;
+  }
+  .slider-dots--dark .slider-dots__item.is-active {
+    opacity: 1;
+  }
+
+  /* --- СВЕТЛАЯ ТЕМА (для белого фона, как на твоем скриншоте) --- */
+  .slider-dots--light .slider-dots__item {
+    background: #d9d9d9; /* Светло-серый (--color-line) */
+    opacity: 1;
+  }
+  .slider-dots--light .slider-dots__item.is-active {
+    background: var(--color-primary); /* Синий (--color-primary) */
+  }
+</style>

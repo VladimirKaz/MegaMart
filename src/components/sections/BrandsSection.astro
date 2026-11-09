@@ -1,0 +1,106 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import { Image } from "astro:assets";
+
+import SliderDots from "../ui/SliderDots.astro";
+
+import imgIphone from "../../assets/images/brands/banner-iphone.png";
+import imgRealme from "../../assets/images/brands/banner-realme.png";
+import imgXiaomi from "../../assets/images/brands/banner-xiaomi.png";
+
+const brands = [
+  { image: imgIphone, href: "/catalog/iphone", alt: "iPhone - UP to 80% OFF" },
+  { image: imgRealme, href: "/catalog/realme", alt: "Realme - UP to 80% OFF" },
+  { image: imgXiaomi, href: "/catalog/xiaomi", alt: "Xiaomi - UP to 80% OFF" },
+];
+---
+
+<section class="brands">
+  <div class="container">
+    <SectionHeader
+      title="Top Electronics "
+      highlight="Brands"
+      linkText="View All"
+      linkHref="/catalog/brands"
+    />
+
+    <div class="brands__grid">
+      {
+        brands.map((brand) => (
+          <a href={brand.href} class="brands__link">
+            <Image
+              src={brand.image}
+              alt={brand.alt}
+              class="brands__image"
+              loading="lazy"
+            />
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- ПАГИНАЦИЯ ДЛЯ БРЕНДОВ -->
+    <div class="brands__pagination">
+      <SliderDots total={6} activeIndex={0} theme="light" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .brands {
+    padding: 0;
+    margin-top: 120px;
+  }
+
+  .brands__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .brands__link {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 389 / 207; /* Задаем точные пропорции как в макете */
+    border-radius: var(--radius-md);
+    overflow: hidden; /* Обрезаем все, что вылазит за рамки */
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+    background-color: var(--color-bg-1); /* Фон на случай прозрачности */
+  }
+
+  .brands__link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .brands__image {
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* Стили для контейнера пагинации */
+  .brands__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  /* Адаптив */
+  @media (max-width: 1024px) {
+    .brands__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .brands__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+</style>
