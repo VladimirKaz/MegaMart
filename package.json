@@ -12,7 +12,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.4.5"
+    "@astrojs/vue": "^7.1.2",
+    "@nanostores/vue": "^1.1.0",
+    "astro": "^7.4.5",
+    "nanostores": "^1.5.5",
+    "pinia": "^4.1.0",
+    "vue": "^3.5.45"
   },
   "devDependencies": {
     "@types/node": "^26.6.5"

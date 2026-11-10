@@ -2,15 +2,21 @@ import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
+import vue from '@astrojs/vue';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com', //нужно написать наш домен
+  //нужно написать наш домен
+  site: 'https://example.com',
+
   output: 'static',
+
   build: {
     inlineStylesheets: 'auto',
   },
+
   vite: {
     css: {
       devSourcemap: true,
@@ -21,4 +27,6 @@ export default defineConfig({
       },
     },
   },
+
+  integrations: [vue()],
 });

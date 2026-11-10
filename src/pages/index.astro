@@ -5,6 +5,8 @@ import BestDealSection from "../components/sections/BestDealSection.astro";
 import CategoriesSection from "../components/sections/CategoriesSection.astro";
 import BrandsSection from "../components/sections/BrandsSection.astro";
 import DailyEssentialsSection from "../components/sections/DailyEssentialsSection.astro";
+//logic
+import CartDrawer from "@/components/vue/CartDrawer.vue";
 ---
 
 <BaseLayout title="Главная">
@@ -13,4 +15,7 @@ import DailyEssentialsSection from "../components/sections/DailyEssentialsSectio
   <CategoriesSection />
   <BrandsSection />
   <DailyEssentialsSection />
+
+  <!-- ДОБАВЛЯЕМ КОРЗИНУ -->
+  <CartDrawer client:load />
 </BaseLayout>
