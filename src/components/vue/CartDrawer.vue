@@ -2,13 +2,24 @@
 import { useStore } from '@nanostores/vue';
 import { cartItems, isCartOpen, decrementQuantity, removeFromCart, addToCart } from '@/stores/cart';
 import { computed } from 'vue';
+import type { Product } from '@/types';
 
 const $cartItems = useStore(cartItems); // Реактивный доступ к товарам
 const $isOpen = useStore(isCartOpen);   // Реактивный доступ к состоянию панели
 
-// Вычисляем общую сумму
+// 1. Превращаем объект в массив с правильной типизацией
+const cartList = computed(() => {
+  return Object.values($cartItems.value || {}) as (Product & { quantity: number })[];
+});
+
+// Вычисляем общую сумму (используем новый cartList)
 const totalPrice = computed(() => {
-  return Object.values($cartItems.value).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  return cartList.value.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+});
+
+// Проверка на пустоту
+const hasItems = computed(() => {
+  return cartList.value.length > 0;
 });
 
 const closeCart = () => {
@@ -17,86 +28,128 @@ const closeCart = () => {
 </script>
 
 <template>
-  <!-- Оверлей -->
-  <div v-if="$isOpen" class="overlay" @click="closeCart"></div>
+  <!-- ОБЕРТКА: Один корневой элемент (фрагмент), чтобы Astro не ругался -->
+  <div>
+    <!-- Оверлей -->
+    <div v-if="$isOpen" class="overlay" @click="closeCart"></div>
 
-  <div class="drawer" :class="{ 'is-open': $isOpen }">
-    
-    <div class="drawer-header">
-      <h2>Ваша корзина</h2>
-      <!-- Кнопка закрытия -->
-      <button @click="closeCart">✖</button>
-    </div>
-
-    <div class="drawer-body">
-      <!-- Если корзина пуста -->
-      <div v-if="Object.keys($cartItems).length === 0">
-        Корзина пуста
+    <!-- Сама корзина -->
+    <div class="drawer" :class="{ 'is-open': $isOpen }">
+      
+      <div class="drawer-header">
+        <h2>Ваша корзина</h2>
+        <button @click="closeCart">✖</button>
       </div>
 
-      <!-- Если есть товары -->
-      <div v-else>
-        <div v-for="item in $cartItems" :key="item.id" class="cart-item">
-          <!-- Картинка товара -->
-          <img :src="item.image" :alt="item.title" class="cart-item__img" />
-      
-          <!-- Информация -->
-          <div class="cart-item__info">
-            <h4>{{ item.title }}</h4>
-            <div class="cart-item__prices">
-              <!-- Текущая цена -->
-              <span class="price-current">{{ item.price }} ₹</span>
-              <!-- Старая цена (если есть) -->
-              <span v-if="item.oldPrice" class="price-old">{{ item.oldPrice }} ₹</span>
-            </div>
-          </div>
+      <div class="drawer-body">
+        <!-- Если корзина пуста: обращаемся к вычисляемому свойству hasItems -->
+        <div v-if="!hasItems" class="empty-state">
+          Корзина пуста
+        </div>
 
-          <!-- Кнопки управления (плюс/минус/удалить) -->
-          <div class="cart-item__controls">
-            <button @click="decrementQuantity(item.id)">-</button>
-            <span>{{ item.quantity }}</span>
-            <button @click="addToCart(item)">+</button>
-            <button @click="removeFromCart(item.id)" class="btn-delete">✖</button>
+        <!-- Если есть товары -->
+        <div v-else>
+          <div v-for="item in cartList" :key="item.id" class="cart-item">
+            <img :src="item.image" :alt="item.title" class="cart-item__img" />
+        
+            <div class="cart-item__info">
+              <h4>{{ item.title }}</h4>
+              <div class="cart-item__prices">
+                <span class="price-current">{{ item.price }} ₹</span>
+                <span v-if="item.oldPrice" class="price-old">{{ item.oldPrice }} ₹</span>
+              </div>
+            </div>
+
+            <div class="cart-item__controls">
+              <button @click="decrementQuantity(item.id)">-</button>
+              <span>{{ item.quantity }}</span>
+              <button @click="addToCart(item)">+</button>
+              <button @click="removeFromCart(item.id)" class="btn-delete">✖</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Footer -->
-    <div class="drawer-footer" v-if="Object.keys($cartItems).length > 0">
-      <p>Итого: {{ totalPrice }} ₹</p>
-      <button>Оформить заказ</button>
+
+      <!-- Footer -->
+      <div class="drawer-footer" v-if="hasItems">
+        <p>Итого: {{ totalPrice }} ₹</p>
+        <button class="checkout-btn">Оформить заказ</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Стили для выезжающей панели */
+/* Оверлей (затемнение) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Сама панель (шторка) */
 .drawer {
   position: fixed;
   top: 0;
-  right: -400px; /* Изначально спрятана за правым краем экрана */
-  width: 400px; /* Ширина корзины */
+  right: 0;
+  width: 100%;
+  max-width: 400px;
   height: 100vh;
   background-color: #fff;
-  box-shadow: -5px 0 15px rgba(0,0,0,0.1); /* Тень слева */
-  transition: right 0.3s ease-in-out; /* Плавная анимация выезда */
-  z-index: 1000; /* Поверх всего */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
+  
+  /* Анимация выезда */
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Когда корзина открыта (класс добавляется через Vue) */
+/* Открытое состояние панели */
 .drawer.is-open {
-  right: 0; /* Выезжает на экран */
+  transform: translateX(0);
 }
 
-/* Простые стили для внутренностей (можешь заменить своими) */
-.drawer-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
-.drawer-body { padding: 20px; flex-grow: 1; overflow-y: auto; }
-.drawer-footer { padding: 20px; border-top: 1px solid #eee; }
-.cart-item { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px;}
-.controls { display: flex; gap: 10px; }
+/* Внутренние элементы */
+.drawer-header { 
+  padding: 20px; 
+  border-bottom: 1px solid #eee; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
 
+.drawer-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.drawer-body { 
+  padding: 20px; 
+  flex-grow: 1; 
+  overflow-y: auto; 
+}
+
+.drawer-footer { 
+  padding: 20px; 
+  border-top: 1px solid #eee; 
+}
+
+.empty-state {
+  text-align: center;
+  color: #888;
+  margin-top: 50px;
+}
+
+/* Карточка товара */
 .cart-item {
   display: flex;
   align-items: center;
@@ -132,6 +185,7 @@ const closeCart = () => {
   margin-left: 5px;
 }
 
+/* Кнопки управления количеством */
 .cart-item__controls {
   display: flex;
   align-items: center;
@@ -152,17 +206,17 @@ const closeCart = () => {
   font-size: 16px;
 }
 
-/* Оверлей */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
-  z-index: 999; /* Чуть ниже, чем сама корзина (у неё 1000) */
-  /* Опционально: плавное появление */
-  animation: fadeIn 0.3s ease;
+/* Кнопка "Оформить заказ" */
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1a56db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 @keyframes fadeIn {

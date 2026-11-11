@@ -7,6 +7,7 @@ import BrandsSection from "../components/sections/BrandsSection.astro";
 import DailyEssentialsSection from "../components/sections/DailyEssentialsSection.astro";
 //logic
 import CartDrawer from "@/components/vue/CartDrawer.vue";
+import AuthModal from "@/components/vue/AuthModal.vue";
 ---
 
 <BaseLayout title="Главная">
@@ -17,5 +18,7 @@ import CartDrawer from "@/components/vue/CartDrawer.vue";
   <DailyEssentialsSection />
 
   <!-- ДОБАВЛЯЕМ КОРЗИНУ -->
-  <CartDrawer client:load />
+  <CartDrawer client:only="vue" />
+  <!-- Окно Авторизации -->
+  <AuthModal client:only="vue" />
 </BaseLayout>

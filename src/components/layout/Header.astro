@@ -4,12 +4,8 @@ import LogoHeader from "../ui/LogoHeader.astro";
 import LogoLines from "@/assets/icons/logo-icon.svg";
 // vue
 import CartButton from "../vue/CartButton.vue";
+import UserButton from "../vue/UserButton.vue";
 import { isCartOpen } from "@/stores/cart";
-
-const navRight = [
-  { icon: "user", text: "Sign Up/Sign In", href: "/login" },
-  { icon: "cart", text: "Cart", href: "/cart" },
-];
 ---
 
 <header class="header">
@@ -69,28 +65,26 @@ const navRight = [
 
     <!-- Right nav -->
     <ul class="header__nav">
+      <li class="header__nav-item">
+        <UserButton client:load />
+      </li>
+      <li class="header__nav-item">
+        <CartButton client:load />
+      </li>
+    </ul>
+
+    <!-- Right nav -->
+    <!-- <ul class="header__nav">
       {
         navRight.map(({ icon, text, href }) => (
           <li class="header__nav-item">
             <a
-              href={href}
+              href={href ?? "#!"}
               class={`header__nav-link ${icon === "cart" ? "open-cart" : ""}`}
               style={icon === "cart" ? "position: relative;" : ""}
             >
               {icon === "user" && (
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-                </svg>
+                
               )}
               {icon === "cart" && <CartButton client:load />}
 
@@ -99,20 +93,9 @@ const navRight = [
           </li>
         ))
       }
-    </ul>
+    </ul> -->
   </div>
 </header>
-
-<script>
-  import { isCartOpen } from "@/stores/cart";
-
-  // Ищем нашу ссылку по классу и вешаем обработчик
-  document.querySelector(".open-cart")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    isCartOpen.set(true);
-    console.log('set to open');
-  });
-</script>
 
 <style>
   .header {
@@ -198,6 +181,8 @@ const navRight = [
 
   /* Right nav */
   .header__nav {
+    position: relative;
+
     display: flex;
     align-items: center;
     gap: 20px;

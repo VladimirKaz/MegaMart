@@ -17,6 +17,3 @@ export interface User {
   name: string;
   email: string;
 }
-
-// Состояние модалки (какое окно открыто)
-export type AuthModalMode = 'login' | 'register' | null;
