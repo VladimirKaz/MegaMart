@@ -1,0 +1,28 @@
+---
+// src/components/sections/Hero.astro
+import HeroSlider from "@/components/vue/sliders/HeroSlider.vue";
+import { heroSlides } from "@/data/hero-slider/heroSlider.ts";
+import heroDecoration from "@/assets/images/sections/hero/hero-decoration.png";
+
+// Подготавливаем данные для Vue: нам нужен только путь к картинке (.src)
+const slidesForVue = heroSlides.map((slide) => ({
+  ...slide,
+  image: slide.image.src, // Извлекаем строку пути
+}));
+---
+
+<section class="hero">
+  <div class="container">
+    <HeroSlider
+      slides={slidesForVue}
+      decoration={heroDecoration.src}
+      client:load
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 40px 0;
+  }
+</style>
